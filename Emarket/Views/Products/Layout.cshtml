@@ -3,12 +3,18 @@
 @{
     ViewBag.Title = "Layout";
 }
-
+ 
 <h2>Layout</h2>
-
+<p>
+    @using (Html.BeginForm("Search", "products", FormMethod.Get))
+    {
+        <text> <b>Filter:</b></text>
+        @Html.TextBox("key") <input type="submit" value="search" />
+    }
+</p>
 
 <div class="row">
-    @foreach (var item in Model)
+    @foreach (var item in Model )
     {
         <div class="col-sm-6 col-md-4">
             <div class="thumbnail">
