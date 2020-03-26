@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Emarket.Models.Product>
+
+@{
+    ViewBag.Title = "Layout";
+}
+ 
+<h2><b "><span class="glyphicon glyphicon-list-alt " >Products</span></b></h2>
+<p>
+    @using (Html.BeginForm("Search", "products", FormMethod.Get))
+    {
+        <text> <b>Filter:</b></text>
+        @Html.TextBox("key") <input type="submit" value="search" />
+
+        //button of adding new product
+        <a href="@Url.Action("//2sm el view","//2sm el controller")" class="btn btn-primary" style="padding-left:10px;">
+            <span class="glyphicon glyphicon-plus"></span>
+            Add Product
+        </a>
+    }
+</p>
+
+<div class="row">
+    @foreach (var item in Model )
+
+    {
+        <div class="col-sm-6 col-md-4" style="width:250px;" >
+            <div class="thumbnail" style="width:100%" >
+                <img src="@Url.Content(item.image)" alt="..." style="width:210px;max-width:210px;height:250px;max-height:250px;display:inline-block;">
+                <div class="caption">
+                    <h3>@item.name</h3>
+                    <p>Price:@item.price</p>
+                    <p><a href="#" class="btn btn-primary" role="button">More info</a> </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
