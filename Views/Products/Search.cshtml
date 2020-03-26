@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Emarket.Models.Product>
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Layout</h2>
+<p>
+    @using (Html.BeginForm("Search", "products", FormMethod.Get))
+    {
+        <text> <b>Filter:</b></text>
+        @Html.TextBox("key") <input type="submit" value="search" />
+    }
+</p>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="@Url.Content(item.image)" alt="..." width="242" height="200">
+                <div class="caption">
+                    <h3>@item.name</h3>
+                    <p>Price:@item.price</p>
+                    <p><a href="#" class="btn btn-primary" role="button">More info</a> </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
