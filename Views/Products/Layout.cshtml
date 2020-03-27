@@ -18,7 +18,7 @@
         </a>
     }
 </p>
-
+@*  *@
 <div class="row">
     @foreach (var item in Model )
 
@@ -29,7 +29,9 @@
                 <div class="caption">
                     <h3>@item.name</h3>
                     <p>Price:@item.price</p>
-                    <p><a href="#" class="btn btn-primary" role="button">More info</a> </p>
+                    <p>
+                    @Html.ActionLink("More info", "MoreInfo", "Products", new { id = item.id },new { @class = "btn btn-info" })
+                    </p> 
                 </div>
             </div>
         </div>

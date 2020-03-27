@@ -67,14 +67,12 @@ namespace Emarket.Controllers
         //}
 
 
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
+        protected override void Dispose(bool disposing)
+        {
+            db.Dispose();
+            base.Dispose(disposing);
+        }
+
         public ActionResult Layout()
         {
             var record = db.Products.ToList();
@@ -132,6 +130,14 @@ namespace Emarket.Controllers
         //    return View(bsmallah);
         //}
 
-
+        public ActionResult MoreInfo(int id)
+        {
+            Product P = new Product();
+            using(db)
+            {
+                P = db.Products.Where(p => p.id == id).FirstOrDefault();
+            }
+            return View(P);
+        }
     }
 }

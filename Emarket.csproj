@@ -136,6 +136,7 @@
     <Compile Include="Models\Category.cs">
       <DependentUpon>EmarketDBModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CustomizeProduct.cs" />
     <Compile Include="Models\EmarketDBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -220,6 +221,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Products\Layout.cshtml" />
     <Content Include="Views\Products\Search.cshtml" />
+    <Content Include="Views\Products\MoreInfo.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
