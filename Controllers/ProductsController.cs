@@ -23,50 +23,6 @@ namespace Emarket.Controllers
             return View(products.ToList());
         }
 
-        // GET: Products/Details/5
-
-        //public ActionResult Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Product product = db.Products.Find(id);
-        //    if (product == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(product);
-        //}
-
-        // GET: Products/Create
-
-        //public ActionResult Create()
-        //{
-        //    ViewBag.category_id = new SelectList(db.Categories, "id", "name");
-        //    return View();
-        //}
-
-        // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include = "id,name,price,image,description,category_id")] Product product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Products.Add(product);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.category_id = new SelectList(db.Categories, "id", "name", product.category_id);
-        //    return View(product);
-        //}
-
-
         protected override void Dispose(bool disposing)
         {
             db.Dispose();
@@ -93,6 +49,21 @@ namespace Emarket.Controllers
             //  int parsed = Convert.ToInt32(categoryID);
             //  var listOfProducts = db.Products.Where(x => x.id == parsed).ToList();
             return View(listOfProducts);
+        }
+        public ActionResult MoreInfo(int id)
+        {
+            Product P = new Product();
+
+            using (db)
+            {
+                P = db.Products.Where(p => p.id == id).FirstOrDefault();
+            }
+            //var cat_id = P.category_id;
+            //var fetch_cat_name = (from q in db.Categories
+            //                      where q.id == cat_id
+            //                      select q.name).FirstOrDefault();
+            //return View(fetch_cat_name,P);
+            return View(P);
         }
         //public ActionResult Search(string key)
         //{
@@ -130,14 +101,6 @@ namespace Emarket.Controllers
         //    return View(bsmallah);
         //}
 
-        public ActionResult MoreInfo(int id)
-        {
-            Product P = new Product();
-            using(db)
-            {
-                P = db.Products.Where(p => p.id == id).FirstOrDefault();
-            }
-            return View(P);
-        }
+
     }
 }
