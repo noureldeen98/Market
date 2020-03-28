@@ -58,11 +58,6 @@ namespace Emarket.Controllers
             {
                 P = db.Products.Where(p => p.id == id).FirstOrDefault();
             }
-            //var cat_id = P.category_id;
-            //var fetch_cat_name = (from q in db.Categories
-            //                      where q.id == cat_id
-            //                      select q.name).FirstOrDefault();
-            //return View(fetch_cat_name,P);
             return View(P);
         }
         //public ActionResult Search(string key)
