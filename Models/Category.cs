@@ -11,8 +11,10 @@ namespace Emarket.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Category
+	using System.ComponentModel.DataAnnotations;
+	[MetadataType(typeof(Category))]
+
+	public partial class Category
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Category()
@@ -21,7 +23,8 @@ namespace Emarket.Models
         }
     
         public int id { get; set; }
-        public string name { get; set; }
+		[Display(Name = "Category Name")]
+		public string name { get; set; }
         public Nullable<int> number_of_products { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

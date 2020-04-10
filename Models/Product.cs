@@ -11,12 +11,16 @@ namespace Emarket.Models
 {
     using System;
     using System.Collections.Generic;
-    
-    public partial class Product
+	using System.ComponentModel.DataAnnotations;
+	[MetadataType(typeof(Product))]
+	public partial class Product
     {
         public int id { get; set; }
-        public string name { get; set; }
-        public Nullable<double> price { get; set; }
+		[Display(Name = "Product Name")]
+		public string name { get; set;}
+		[Display(Name = "Product Price")]
+		[DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = false)]
+		public Nullable<double> price { get; set; }
         public string image { get; set; }
         public string description { get; set; }
         public Nullable<int> category_id { get; set; }

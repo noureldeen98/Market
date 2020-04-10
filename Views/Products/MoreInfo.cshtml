@@ -1,6 +1,4 @@
 ﻿@model Emarket.Models.Product
-
-
 @{
     ViewBag.Title = "MoreInfo";
 }
@@ -30,43 +28,14 @@
                 @Html.DisplayFor(modelItem => modelItem.price)
             </td>
             <td>
-                
-                @if (Model.category_id == 1)
-                {
-                    <p>Moblie</p>
-                }
-                @if (Model.category_id == 2)
-                {<p>Clothes</p>}
-                @if (Model.category_id == 3)
-                {<p>Laptops</p>}
-                @if (Model.category_id == 9)
-                {<p>Make up</p>}
-                @if (Model.category_id == 10)
-                {<p>Shoes</p>}
-                @if (Model.category_id == 11)
-                {<p>Houseware</p>}
-                @if (Model.category_id == 13)
-                {<p>Electrical Devices</p>}
+                @Html.DisplayFor(modelItem => modelItem.Category.name)
             </td>
 
         </tr>
     </table>
     <div style="text-align:center;background-color:aqua;font-size:40px">
         @Html.DisplayFor(modelItem => modelItem.name) -      @Html.DisplayFor(modelItem => modelItem.price)
-        @if (Model.category_id == 1)
-        {<p>Moblie</p>}
-        @if (Model.category_id == 2)
-        {<p>Clothes</p>}
-        @if (Model.category_id == 3)
-        {<p>Laptops</p>}
-        @if (Model.category_id == 9)
-        {<p>Make up</p>}
-        @if (Model.category_id == 10)
-        {<p>Shoes</p>}
-        @if (Model.category_id == 11)
-        {<p>Houseware</p>}
-        @if (Model.category_id == 13)
-        {<p>Electrical Devices</p>}
+        (  @Html.DisplayFor(modelItem => modelItem.Category.name))
     </div>
 
 </div>

@@ -56,7 +56,7 @@ namespace Emarket.Controllers
 
             using (db)
             {
-                P = db.Products.Where(p => p.id == id).FirstOrDefault();
+				P = db.Products.Include(x => x.Category).SingleOrDefault(p => p.id == id);
             }
             return View(P);
         }
