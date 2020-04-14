@@ -47,7 +47,7 @@
     <h3>  @Html.DisplayFor(modelItem => modelItem.description) </h3>
 </div>
 <p>
-
-    <a href="#" class="btn btn-primary" role="button">Update</a>                                       <a href="#" class="btn btn-primary" role="button">Delete</a>
+    @Html.ActionLink("Edit", "Edit", "Products", new { id = Model.id }, new { @class = "btn btn-info" })
+    @Html.ActionLink("Delete", "Delete", "Products", new { id = Model.id }, new { @class = "btn btn-info" })
 
 </p>

@@ -168,6 +168,58 @@ namespace Emarket.Controllers
             }
             return View(product);
         }
+        [HttpGet]
+        public ActionResult Add()
+        {
+            ViewBag.category_id = new SelectList(db.Categories, "id", "name");
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Add(Product product)
+        {
+            if (product.ImageFile == null)
+            {
+                ViewBag.error = "This is Required";
+            }
+            else
+            {
+                string filename = Path.GetFileNameWithoutExtension(product.ImageFile.FileName);
+                string Extention = Path.GetExtension(product.ImageFile.FileName);
+                filename += Extention;
+                product.image = "~/photos/" + filename;
+                filename = Path.Combine(Server.MapPath("~/photos/"), filename);
+                if (Extention.ToLower() == ".jpg" || Extention.ToLower() == ".png" || Extention.ToLower() == ".jpeg")
+                {
+                    if (ModelState.IsValid)
+                    {
+                        product.ImageFile.SaveAs(filename);
+                        db.Products.Add(product);
+                        var item2 = db.Categories.Find(product.category_id);
+                        item2.number_of_products++;
+                        db.Entry(item2).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Layout");
+                    }
+                }
+                else
+                {
+                    ViewBag.msg = "Invalid File Type";
+                }
+            }
+            ModelState.Clear();
+            ViewBag.category_id = new SelectList(db.Categories, "id", "name", product.category_id);
+            return View();
+        }
+        public ActionResult Delete(int id)
+        {
+            var item = db.Products.Where(x => x.id == id).First();
+            var item2 = db.Categories.Find(item.category_id);
+            item2.number_of_products--;
+            db.Entry(item2).State = EntityState.Modified;
+            db.Products.Remove(item);
+            db.SaveChanges();
+            return RedirectToAction("Layout");
+        }
     }
 
 }
