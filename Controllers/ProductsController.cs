@@ -72,111 +72,37 @@ namespace Emarket.Controllers
             }
             return View(P);
         }
+
+        // GET: Productscopy/Edit/5
         public ActionResult Edit(int? id)
         {
-            List<SelectListItem> items = new List<SelectListItem>();
-            SelectListItem item1 = new SelectListItem()
-            {
-                Text = "Mobiles",
-                Value = "1",
-                Selected = true
-            };
-            SelectListItem item2 = new SelectListItem()
-            {
-                Text = "Laptops",
-                Value = "3",
-                Selected = true
-            };
-            SelectListItem item3 = new SelectListItem()
-            {
-                Text = "Mobiles",
-                Value = "2",
-                Selected = false
-            };
-            SelectListItem item4 = new SelectListItem()
-            {
-                Text = "Electrical Devices",
-                Value = "15",
-                Selected = false
-            };
-            items.Add(item1);
-            items.Add(item2);
-            items.Add(item3);
-            items.Add(item4);
-            ViewBag.category = items;
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Find(id);
-            Session["imgPath"] = product.image;
             if (product == null)
             {
                 return HttpNotFound();
             }
+            ViewBag.category_id = new SelectList(db.Categories, "id", "name", product.category_id);
             return View(product);
         }
+
+        // POST: Productscopy/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit(HttpPostedFileBase file, [Bind(Include = "image,name,price,description,category")]Product product)
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "id,name,price,image,description,category_id")] Product product)
         {
             if (ModelState.IsValid)
             {
-
-                if (file != null)
-                {
-
-                    string filename = Path.GetFileName(file.FileName);
-                    string _filename = DateTime.Now.ToString("yymmssff") + filename;
-                    string extension = Path.GetExtension(file.FileName);
-
-                    string path = Path.Combine(Server.MapPath("~/photos/"), _filename);
-                    product.image = "~/photos/" + _filename;
-                    if (extension.ToLower() == ".jpg" || extension.ToLower() == ".jpeg" || extension.ToLower() == ".png")
-                    {
-                        if (file.ContentLength <= 100000)
-                        {
-                            string oldImgPath = Request.MapPath(Session["imgPath"].ToString());
-                            db.Entry(product).State = EntityState.Modified;
-
-                            if (db.SaveChanges() > 0)
-                            {
-                                file.SaveAs(path);
-                                if (System.IO.File.Exists(oldImgPath))
-                                {
-                                    System.IO.File.Delete(oldImgPath);
-                                }
-                                TempData["msg"] = "Data Updated";
-                                db.SaveChanges();
-                                return RedirectToAction("MoreInfo");
-
-                            }
-                        }
-
-
-                        else
-                        {
-                            ViewBag.msg = "File size must be equal or less than 1mb ";
-                        }
-
-                    }
-                    else
-                    {
-                        ViewBag.msg = "Invalid file type";
-                    }
-                }
-
-                else
-                {
-                    product.image = Session["imgPath"].ToString();
-                    db.Entry(product).State = EntityState.Modified;
-                    if (db.SaveChanges() > 0)
-                    {
-                        TempData["msg"] = "Data Updated";
-                        db.SaveChanges();
-                        return RedirectToAction("MoreInfo");
-                    }
-                }
+                db.Entry(product).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Layout");
             }
+            ViewBag.category_id = new SelectList(db.Categories, "id", "name", product.category_id);
             return View(product);
         }
         [HttpGet]
