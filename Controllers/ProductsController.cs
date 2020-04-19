@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -94,17 +95,32 @@ namespace Emarket.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,name,price,image,description,category_id")] Product product)
+        public ActionResult Edit([Bind(Include = "id,name,price,image,description,category_id")] Product product,HttpPostedFileBase ImageFile)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(product).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Layout");
-            }
+
+  
+                    if (ModelState.IsValid)
+                    {
+                        string path = "";
+                        if (ImageFile.FileName.Length > 0)
+                        {
+                            path = "~/Photos/" + Path.GetFileName(ImageFile.FileName);
+                            ImageFile.SaveAs(Server.MapPath(path));
+                        }
+                        product.image = path;
+
+                        db.Entry(product).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Layout");
+                    }
+                
+
+            
+
             ViewBag.category_id = new SelectList(db.Categories, "id", "name", product.category_id);
             return View(product);
         }
+       
         [HttpGet]
         public ActionResult Add()
         {
@@ -162,22 +178,7 @@ namespace Emarket.Controllers
 }
 
         
-        // POST: Admin/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-      //  [HttpPost]
 
-      //  [ValidateAntiForgeryToken]
-      //  public ActionResult Edit([Bind(Include = "image,name,price,description,category")] Product product)
-       // {
-        //    if (ModelState.IsValid)
-          //  {
-             //   db.Entry(product).State = EntityState.Modified;
-             //   db.SaveChanges();
-             //   return RedirectToAction("MoreInfo");
-         //   }
-         //   return View(product);
-       // }
  //   ------   ---------------------------------------------------------------------------------------------------
         //public ActionResult Search(string key)
         //{
