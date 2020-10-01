@@ -1,47 +1,70 @@
 ﻿@model IEnumerable<Emarket.Models.Product>
 
+@{ 
+    Emarket.Models.EmarketDBEntities db = new Emarket.Models.EmarketDBEntities();
+    var Cart = db.Carts.ToList();
+
+
+}
+
+
 @{
     ViewBag.Title = "Layout";
 }
-<p>
-    <h3 style="color:red">Hint  :</h3>To know the categories click at dropdown list , then write your choise at filter & press enter or search
-    <h2><b><span class="glyphicon glyphicon-list-alt ">Products</span></b></h2>
-</p>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#aletmsg").click(function () {
+            alert("Alert message");
+        });
+
+    });
+</script>
 
 
-@Html.DropDownList("CategoryList", ViewBag.CategoryList as SelectList, "categories list")
+        <p>
+            <h3 style="color:red">Hint  :</h3>To know the categories click at dropdown list , then write your choise at filter & press enter or search
+            <h2><b><span class="glyphicon glyphicon-list-alt ">Products</span></b></h2>
+        </p>
 
 
-<p>
-    @using (Html.BeginForm("Search", "products", FormMethod.Get))
-    {
-        <text> <b>Filter:</b></text>
-        @Html.TextBox("key") <input type="submit" value="search" />
+        @Html.DropDownList("CategoryList", ViewBag.CategoryList as SelectList, "categories list")
 
-        //button of adding new product
-        <a href="@Url.Action("Add")" class="btn btn-primary" style="padding-left:10px;">
-            <span class="glyphicon glyphicon-plus"></span>
-            Add Product
-        </a>
-    }
-</p>
-@*  *@
-<div class="row">
-    @foreach (var item in Model)
 
-    {
-        <div class="col-sm-6 col-md-4" style="width:250px;">
-            <div class="thumbnail" style="width:100%">
-                <img src="@Url.Content(item.image)" alt="..." style="width:210px;max-width:210px;height:250px;max-height:250px;display:inline-block;">
-                <div class="caption">
-                    <h3>@item.name</h3>
-                    <p>Price:@item.price</p>
-                    <p>
-                        @Html.ActionLink("More info", "MoreInfo", "Products", new { id = item.id }, new { @class = "btn btn-info" })
-                    </p>
+        <p>
+            @using (Html.BeginForm("Search", "products", FormMethod.Get))
+            {
+                <text> <b>Filter:</b></text>
+                @Html.TextBox("key") <input type="submit" value="search" id="aletmsg" />
+
+                //button of adding new product
+                <a href="@Url.Action("Add")" class="btn btn-primary" style="padding-left:10px;">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    Add Product
+                </a>
+            }
+        </p>
+        @*  *@
+<div class=" container">
+    <div class="row">
+        @foreach (var item in Model)
+
+        {
+            <div class="col-xs-6 col-md-4 col-lg-2">
+                <div class="thumbnail" style="width:100%">
+                    <img src="@Url.Content(item.image)" alt="..." style="width:140px;max-width:140px;height:250px;max-height:250px;display:inline-block;">
+                    <div class="caption">
+                        <h3>@item.name</h3>
+                        <p>Price:@item.price</p>
+                        <p>
+                            @Html.ActionLink("More info", "MoreInfo", "Products", new { id = item.id }, new { @class = "btn btn-info" })
+                            @Html.ActionLink("Add to cart", "MoreInfo", "Products", new { id = item.id }, new { @class = "btn btn-info" })
+                        </p>
+
+                    </div>
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 

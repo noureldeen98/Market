@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Assem\Downloads\new\Emarket\Models\EmarketDBModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Assem\Pictures\Emarket\Models\EmarketDBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
@@ -8,9 +8,3 @@
 // classes for your model, open the model in the designer, right-click on the designer surface, and
 // select 'Update Model from Database...', 'Generate Database from Model...', or 'Add Code Generation
 // Item...'.
-using System.Collections.Generic;
-
-public class EmarketDBModel
-{
-    public IEnumerable<EmarketDBModel> category_id { get; set; }
-}

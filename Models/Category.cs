@@ -12,7 +12,6 @@ namespace Emarket.Models
     using System;
     using System.Collections.Generic;
 	using System.ComponentModel.DataAnnotations;
-	[MetadataType(typeof(Category))]
 
 	public partial class Category
     {
@@ -23,7 +22,7 @@ namespace Emarket.Models
         }
     
         public int id { get; set; }
-		[Display(Name = "Category Name")]
+		[Display(Name = "CategoryName")]
 		public string name { get; set; }
         public Nullable<int> number_of_products { get; set; }
     

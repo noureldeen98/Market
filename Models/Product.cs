@@ -11,24 +11,27 @@ namespace Emarket.Models
 {
     using System;
     using System.Collections.Generic;
-	using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel;
     using System.Web;
-    [MetadataType(typeof(Product))]
+	
 	public partial class Product
     {
+		
         public int id { get; set; }
-		[Display(Name = "Product Name")]
-		public string name { get; set;}
-		[Display(Name = "Product Price")]
+		[Required(ErrorMessage = "Please Product Name is required")]
+		[Display(Name = "ProductName")]
+		public string name { get; set; }
+		[Required(ErrorMessage = "Please Product price is required")]
+		[Display(Name = "ProductPrice")]
 		[DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = false)]
 		public Nullable<double> price { get; set; }
-        [DisplayName("Upload File")]
         public string image { get; set; }
-        public string description { get; set; }
+		[Required(ErrorMessage = "Please Product Description is required")]
+		public string description { get; set; }
         public Nullable<int> category_id { get; set; }
-    
-        public virtual Category Category { get; set; }
         public HttpPostedFileBase ImageFile { get; set; }
+        public virtual Category Category { get; set; }
+        public virtual Cart Cart { get; set; }
     }
 }

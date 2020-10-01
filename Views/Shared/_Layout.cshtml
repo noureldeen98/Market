@@ -25,15 +25,164 @@
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
                     <li>@Html.ActionLink("Products", "Layout", "Products")</li>
                 </ul>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="margin-left:400px;margin-top:5px">Go to Cart. </button>
+
             </div>
         </div>
     </div>
     <div class="container body-content">
+        @Html.Partial("_Notifications")
         @RenderBody()
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - EMarket</p>
         </footer>
+    </div>
+    <!-- Trigger the modal with a button -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <!-- Modal color-->
+                <div class="p-3 mb-2 bg-primary text-white">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Cart List</h4>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    @foreach (var item in ViewBag.ListCart)
+                    {
+                        <table class="table table-striped ">
+                            <tr>
+                                <td>
+                                   
+                                    @Html.ActionLink("Remove", "Removefromcart", "Products", new { productid = item.product_id }, new { @class = "btn btn-info" })
+
+                                </td>
+
+                                <td>
+                                    <table>
+                                        <tr>
+                                            
+                                            <td>@item.Product.name </td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>@item.Product.price EGP</td>
+                                        </tr>
+                                        <tr>
+
+                                            <td>
+                                            
+                                                @{
+                                                    TimeSpan ts = DateTime.Now - item.added_at;
+                                                    
+                                                    //now
+                                                    if (ts.TotalMinutes < 1)
+                                                    {
+                                                        @Html.Label("just now")
+                                                    }
+                                                    
+
+                                                    //min
+                                                    else if (ts.TotalHours < 1)
+                                                    {
+                                                        if ((int)ts.TotalMinutes == 1)
+                                                        {
+                                                            @Html.Label("a Minute ago")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Label((int)ts.TotalMinutes + " Minutes ago")
+                                                        }
+                                                    }
+                                                   
+                                                    //hours
+                                                    else if (ts.TotalDays < 1)
+                                                    {
+                                                        if ((int)ts.TotalHours == 1)
+                                                        {
+                                                            @Html.Label("an Hour ago")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Label((int)ts.TotalHours + " Hours ago")
+                                                        }
+                                                    }
+
+                                                    //days
+                                                    else if (ts.TotalDays < 7)
+                                                    {
+                                                        if ((int)ts.TotalDays == 1)
+                                                        {
+                                                            @Html.Label("a Day ago")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Label((int)ts.TotalDays + " Days ago")
+                                                        }
+                                                    }
+
+                                                    //weeks 
+                                                    else if (ts.TotalDays < 30.4368)
+                                                    {
+                                                        if ((int)(ts.TotalDays / 7) == 1)
+                                                        {
+                                                            @Html.Label("a Week ago")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Label((int)(ts.TotalDays / 7) + " Weeks ago")
+                                                        }
+                                                    }
+
+                                                    //months
+                                                    else if (ts.TotalDays < 365.242)
+                                                    {
+                                                        if ((int)(ts.TotalDays / 30.4368) == 1)
+                                                        {
+                                                            @Html.Label("a Month ago")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Label((int)(ts.TotalDays / 30.4368) + " Months ago")
+                                                        }
+                                                    }
+                                                    //years 
+                                                    else
+                                                    {
+                                                        if ((int)(ts.TotalDays / 365.242) == 1)
+                                                        {
+                                                            @Html.Label("a Year ago")
+                                                        }
+                                                        else
+                                                        {
+                                                            @Html.Label((int)(ts.TotalDays / 365.242) + " Years ago")
+                                                        }
+                                                    }
+                                                }
+                                            </td>
+
+                                        </tr>
+
+                                    </table>
+                                </td>
+                            </tr>
+
+                        </table>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
@@ -41,3 +190,8 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script type="text/javascript">
+    function Index1() {
+        $("#myModal").modal();
+    }
+</script>

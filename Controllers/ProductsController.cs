@@ -17,7 +17,10 @@ namespace Emarket.Controllers
     public class ProductsController : Controller
     {
         private EmarketDBEntities db = new EmarketDBEntities();
-
+        public ProductsController()
+        {
+            ViewBag.ListCart = db.Carts.ToList();
+        }
         // GET: Products
         public ActionResult Index()
         {
@@ -37,9 +40,8 @@ namespace Emarket.Controllers
             var categorylist = emarketDB.Categories.ToList();
             SelectList list = new SelectList(categorylist, "id", "name");
             ViewBag.CategoryList = list;
-
-            var record = db.Products.ToList();
-            return View(record);
+			var record = db.Products.ToList();
+			return View(record);
         }
         public ActionResult Search(string key)
         {
@@ -47,8 +49,6 @@ namespace Emarket.Controllers
             var categorylist = emarketDB.Categories.ToList();
             SelectList list = new SelectList(categorylist, "id", "name");
             ViewBag.CategoryList = list;
-
-
             //var categoryID = (from p in db.Categories
             //                  where p.name == key
             //                  select new Category { id = p.id });
@@ -57,7 +57,6 @@ namespace Emarket.Controllers
                               select p.id).FirstOrDefault();
            // int parsed = int.Parse(categoryID);
             var listOfProducts = db.Products.Where(x => x.category_id== categoryID).ToList();
-            /* */
             //  SqlCommand cmd = new SqlCommand(categoryID);  
             //  int parsed = Convert.ToInt32(categoryID);
             //  var listOfProducts = db.Products.Where(x => x.id == parsed).ToList();
@@ -129,7 +128,7 @@ namespace Emarket.Controllers
         }
         [HttpPost]
         public ActionResult Add(Product product)
-        {
+        {        
             if (product.ImageFile == null)
             {
                 ViewBag.error = "This is Required";
@@ -165,15 +164,41 @@ namespace Emarket.Controllers
         }
         public ActionResult Delete(int id)
         {
-            var item = db.Products.Where(x => x.id == id).First();
+			var item = db.Products.Where(X => X.id == id).First();
             var item2 = db.Categories.Find(item.category_id);
             item2.number_of_products--;
             db.Entry(item2).State = EntityState.Modified;
-            db.Products.Remove(item);
+			var x = db.Carts.ToList();
             db.SaveChanges();
             return RedirectToAction("Layout");
         }
-    }
+		public ActionResult Removefromcart (int productid)
+		{
+			var item = db.Carts.Where(x => x.product_id == productid).First();
+			db.Entry(item).State = EntityState.Modified;
+			db.Carts.Remove(item);
+			db.SaveChanges();
+			return RedirectToAction("Layout");
+		}
+
+
+		public ActionResult addtocart(int product_id)
+		{
+			
+				var car = new Cart();
+				
+				var product = db.Products.Find(product_id);
+				
+				car.added_at = DateTime.Now;
+				car.Product = product;
+				car.product_id = product_id;
+
+				db.Carts.Add(car);
+				db.SaveChanges();
+				
+			return Redirect("layout");
+		}
+	}
 
 }
 

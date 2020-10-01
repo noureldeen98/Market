@@ -20,6 +20,7 @@
     <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="category_id" Type="Int32" />
     <NavigationProperty Name="Category" Relationship="Self.FK__Product__categor__29572725" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="Cart" Relationship="EmarketDBModel.FK__Cart__product_id__5CD6CB2B" FromRole="Product" ToRole="Cart" />
   </EntityType>
   <Association Name="FK__Product__categor__29572725">
     <End Role="Category" Type="Self.Category" Multiplicity="0..1" />
@@ -40,5 +41,30 @@
       <End Role="Category" EntitySet="Categories" />
       <End Role="Product" EntitySet="Products" />
     </AssociationSet>
+    <EntitySet Name="Carts" EntityType="EmarketDBModel.Cart" />
+    <AssociationSet Name="FK__Cart__product_id__5CD6CB2B" Association="EmarketDBModel.FK__Cart__product_id__5CD6CB2B">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Cart" EntitySet="Carts" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="product_id" />
+    </Key>
+    <Property Name="product_id" Type="Int32" Nullable="false" />
+    <Property Name="added_at" Type="DateTime" Precision="3" />
+    <NavigationProperty Name="Product" Relationship="EmarketDBModel.FK__Cart__product_id__5CD6CB2B" FromRole="Cart" ToRole="Product" />
+  </EntityType>
+  <Association Name="FK__Cart__product_id__5CD6CB2B">
+    <End Type="EmarketDBModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="EmarketDBModel.Cart" Role="Cart" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="product_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
